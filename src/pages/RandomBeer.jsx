@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import BeerDetails from "../components/BeerDetails";
+import { useNavigate } from "react-router-dom";
 
 function RandomBeer() {
   const [randomBeer, setRandomBeer] = useState(null);
-
+  const navigator = useNavigate();
   useEffect(() => {
     getBeer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -18,7 +19,8 @@ function RandomBeer() {
       console.log(response.data);
       setRandomBeer(response.data);
     } catch (err) {
-      console.log(err);
+      console.log(err)
+      navigator("/error")
     }
   };
 

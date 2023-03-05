@@ -6,6 +6,7 @@ import NewBeer from "./pages/NewBeer";
 import RandomBeer from "./pages/RandomBeer";
 import SingleBeer from "./pages/SingleBeer";
 import Error400 from "./pages/Error400";
+import Error500 from "./pages/Error500";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/beers/new-beer" element={<NewBeer />} />
         <Route path="/beers/:id" element={<SingleBeer />} />
         <Route path="*" element={<Error400 />} />
+        <Route path="/error" element={<Error500 />} />
       </Routes>
     </div>
   );

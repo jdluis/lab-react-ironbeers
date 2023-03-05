@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import BeerDetails from "../components/BeerDetails";
 
 function SingleBeer() {
   const [beer, setBeer] = useState(null);
   const { id } = useParams();
+  const navigator = useNavigate();
 
   useEffect(() => {
     getBeer();
@@ -20,7 +21,8 @@ function SingleBeer() {
       console.log(response.data);
       setBeer(response.data);
     } catch (err) {
-      console.log(err);
+      console.log(err)
+      navigator("/error")
     }
   };
 

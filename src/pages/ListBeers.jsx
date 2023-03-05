@@ -1,28 +1,61 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function ListBeers() {
   const [allBeers, setAllBeers] = useState(null);
+  const [strSearch, setStrSearch] = useState("");
+  const navigator = useNavigate();
 
   useEffect(() => {
     getBeers();
-  }, []);
+  }, [strSearch]);
 
   const getBeers = async () => {
     try {
       const response = await axios.get(
         "https://ih-beers-api2.herokuapp.com/beers"
       );
-      console.log(response.data);
-      setAllBeers(response.data);
+
+      if (strSearch === "") {
+        setAllBeers(response.data);
+      } else {
+        onSearch(response.data);
+      }
+      
     } catch (err) {
       console.log(err);
+      navigator("/error");
     }
+  };
+
+  const onSearch = (data) => {
+    const beersFiltered = data.filter((beer) => {
+      if (beer.name.includes(strSearch)) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    setAllBeers(beersFiltered);
+  };
+
+  const handleSearch = (e) => {
+    setStrSearch(e.target.value);
   };
 
   return (
     <div>
+      <div className="max-w-sm m-auto">
+        <input
+          className="w-full mx-auto border-4 border-r-4 my-5 px-4"
+          placeholder="Search"
+          value={strSearch}
+          onChange={handleSearch}
+          type="text"
+        />
+      </div>
       <div className="flex flex-col gap-5">
         {allBeers === null
           ? "Loading"
